@@ -120,7 +120,7 @@ SELECT * , (RollingPeopleVaccinated/ population) * 100
 FROM PopvsVac
 	
 
--- Temp Table (ERROR !!!)
+-- Temp Table
 
 DROP TABLE IF exists #PercentPopulationVaccinated
 CREATE TABLE #PercentPopulationVaccinated (
