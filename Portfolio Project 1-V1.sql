@@ -185,9 +185,8 @@ WHERE dea.continent IS NOT NULL
 SELECT * , (RollingPeopleVaccinated/ population) * 100
 FROM #PercentPopulationVaccinated
 
+
 --Creating View to store data for later visualizations
-
-
 
 CREATE View PercentPopulationVaccinated AS
 SELECT 
@@ -204,3 +203,25 @@ WHERE dea.continent IS NOT NULL
 
 SELECT *
 FROM PercentPopulationVaccinated
+
+-- View for Continent with the highest Death Count
+
+CREATE View HighestDeathCountConitnent AS
+SELECT
+	continent, MAX(Convert(INT,total_deaths)) AS TotalDeathCount
+FROM Test..CovidDeaths
+WHERE continent IS NOT NULL
+GROUP BY continent
+--ORDER BY TotalDeathCount DESC
+
+--View for Country with highest Infection Rate Compared to Population
+
+CREATE VIEW CountryHighestInfectionRate AS
+SELECT
+	location, MAX(total_cases) AS HishestInfectionCount,
+	population,MAX((total_cases/population)) * 100 AS PercentPopulationInfected
+FROM Test..CovidDeaths
+WHERE location in( 'China', 'India','United States', 'New Zealand','Italy','United Kingdom') 
+--AND location LIKE '%states%'
+GROUP BY location,population
+--ORDER BY PercentPopulationInfected DESC
