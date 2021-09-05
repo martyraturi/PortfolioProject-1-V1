@@ -1,0 +1,62 @@
+-- SQL Queries for Tableau 
+
+SELECT * 
+FROM Test..CovidDeaths
+WHERE continent IS NOT NULL
+ORDER BY 3,4
+
+
+--Table 1
+
+-- Global Numbers  
+
+SELECT
+	  SUM(new_cases) AS TotalCase, SUM(CAST(new_deaths AS INT)) AS TotalDeaths,
+	 SUM(CAST(new_deaths AS INT)) / SUM(new_cases) * 100 AS PercentDeath
+FROM Test..CovidDeaths
+WHERE continent IS NOT NULL
+--GROUP BY date
+ORDER BY 1,2
+
+
+--Table 2
+
+SELECT
+	location, SUM(CAST(new_deaths AS INT)) AS TotalDeaths
+FROM Test..CovidDeaths
+WHERE continent IS NULL
+AND location not in ('World', 'European Union', 'International')
+GROUP BY location
+ORDER BY TotalDeaths DESC
+
+--Table 3
+
+SELECT
+	location, MAX(total_cases) AS HishestInfectionCount,
+	population,MAX((total_cases/population)) * 100 AS PercentPopulationInfected
+FROM Test..CovidDeaths
+--WHERE location in( 'China', 'India','United States', 'New Zealand','Italy','United Kingdom') 
+--AND location LIKE '%states%'
+GROUP BY location,population
+ORDER BY PercentPopulationInfected DESC
+
+--Table 3.1
+
+SELECT
+	location, MAX(total_cases) AS HishestInfectionCount,
+	population,MAX((total_cases/population)) * 100 AS PercentPopulationInfected
+FROM Test..CovidDeaths
+WHERE location in( 'China', 'India','United States', 'New Zealand','Italy','United Kingdom') 
+--AND location LIKE '%states%'
+GROUP BY location,population
+ORDER BY PercentPopulationInfected DESC
+
+
+--Table 4
+
+Select Location, Population,date, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected
+From PortfolioProject..CovidDeaths
+--Where location like '%states%'
+Group by Location, Population, date
+order by PercentPopulationInfected desc
+
